@@ -22,7 +22,7 @@ title: Adam's Tech Blog
 email: hostetter.adam@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   This site is meant to display some of the projects I am working on as well as a 
-  place to put down my thoughts and notes about technology that I am interested in.
+  place to put notes about technology that I am interested in.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://ahostetter.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: achostetter
