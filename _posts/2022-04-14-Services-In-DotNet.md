@@ -6,33 +6,53 @@ categories: jekyll update
 ---
 This is the source for this post: [Worker Services in .NET Core][Worker-Services-in-.NET-Core]
 
+Start by creating a new project in Visual Studio
+
+![Alt text](https://github.com/ahostetter/ahostetter.github.io/blob/main/resources/images/project_type.png?raw=true "Project Type: Worker Service")
+
+# Starting code for a service:
+
+`Program.cs`
+
 ```c#
-//If the hero has space in their inventory then randomly select an item
-public static void HeroPickupItem(Hero hero)
-{
-    Console.WriteLine();
-    Console.WriteLine("You find something.");
+using HomeStatusService;
 
-    if (Inventory.inventorySpaceCheck(hero.inventory))
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices(services =>
     {
-        Random rand = new Random();
+        services.AddHostedService<Worker>();
+    })
+    .Build();
 
-        int randomItem = rand.Next(0, 2);
+await host.RunAsync();
+```
 
-        if (randomItem == 0)
+`Worker.cs`
+
+```c#
+namespace HomeStatusService
+{
+    public class Worker : BackgroundService
+    {
+        private readonly ILogger<Worker> _logger;
+
+        public Worker(ILogger<Worker> logger)
         {
-            Console.WriteLine("It's a Health potion");
-            hero.inventory.healthPotion = hero.inventory.healthPotion + 1;
-            Console.WriteLine("You now have " + hero.inventory.healthPotion + " Health Potions in your Inventory.");
+            _logger = logger;
         }
-        else if (randomItem == 1)
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            Console.WriteLine("It's a Strength potion");
-            hero.inventory.strengthPotion = hero.inventory.strengthPotion + 1;
-            Console.WriteLine("You now have " + hero.inventory.strengthPotion + " Strength Potions in your Inventory.");
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                await Task.Delay(1000, stoppingToken);
+            }
         }
     }
 }
 ```
+
+
 
 [Worker-Services-in-.NET-Core]: https://www.youtube.com/watch?v=PzrTiz_NRKA
