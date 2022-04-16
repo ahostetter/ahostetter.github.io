@@ -57,7 +57,7 @@ namespace HomeStatusService
 
 File `Program.cs`
 
-```C#
+```c#
 using HomeStatusService;
 using Serilog;
 
@@ -96,7 +96,7 @@ finally
 
 File `Worker.cs`
 
-```C#
+```c#
 namespace HomeStatusService
 {
     public class Worker : BackgroundService
