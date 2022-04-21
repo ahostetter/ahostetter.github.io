@@ -73,6 +73,7 @@ try
     Log.Information("Starting up the service");
 
     IHost host = Host.CreateDefaultBuilder(args)
+        .UseWindowsService()
         .ConfigureServices(services =>
         {
             services.AddHostedService<Worker>();
@@ -146,6 +147,10 @@ namespace HomeStatusService
 }
 ```
 
+# Publishing Windows Service
+* Make sure to have Microsoft.Extensions.Hosting.WindowsServices package installed
+* Add .UseWindowsService() to builder in Program.cs
 
+![Alt text](https://github.com/ahostetter/ahostetter.github.io/blob/main/resources/images/PublishService.png?raw=true "Publish Service")
 
 [Worker-Services-in-.NET-Core]: https://www.youtube.com/watch?v=PzrTiz_NRKA
